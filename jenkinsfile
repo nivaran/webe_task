@@ -1,0 +1,37 @@
+def node_version =  input(id: 'userInput', message: 'Enter the Node version with prefix v, example: v19.0.0 ', parameters: [[$class: 'TextParameterDefinition', defaultValue: 'v19.0.0', description: 'node version', name: 'url1'],])
+def php_version =  input(id: 'userInput1', message: 'enter the php version, example: 8.1 ', parameters: [[$class: 'TextParameterDefinition', defaultValue: '8.1', description: 'php version', name: 'url2'],])
+pipeline {
+    agent { label 'clusteragent1'}
+
+    stages {
+        stage('Getting The Shell Script which is in the task one to install Node.js and PHP with user input version'){
+            steps {
+                sh 'sudo wget https://github.com/nivaran/webe_task/raw/master/install_node_php.sh'
+            }
+        }
+        
+    //    stage('Build Shell Script') {
+     //      steps {
+       //         script {
+         //       def node_version =  input(id: 'userInput', message: 'Enter the Node version with prefix v, example: v19.0.0 ', parameters: [[$class: 'TextParameterDefinition', defaultValue: 'v19.0.0', description: 'node version', name: 'url1'],])
+           //     def php_version =  input(id: 'userInput1', message: 'enter the php version, example: 8.1 ', parameters: [[$class: 'TextParameterDefinition', defaultValue: '8.1', description: 'php version', name: 'url2'],])
+             //   }
+        //    }
+        //}
+    
+        stage('Installing Node.js & PHP using TASK-1 file'){
+            steps{
+                script{
+                    sh "ls"
+                    sh "sh install_node_php.sh ${node_version} ${php_version} "
+                }
+            }
+        }
+    }
+    post {
+        always {
+            cleanWs()
+            
+        }
+    }
+}
