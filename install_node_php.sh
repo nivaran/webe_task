@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Machine - ubuntu 22.10
+
 # installing NPM (Node Package Manager)
 source ~/.bashrc # To make bash executable for below command
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash   # Clones the nvm repo and runs the install script in dir ~/.nvm
@@ -41,7 +43,7 @@ sleep 2
 sudo apt-get update
 
 # Adding repo of ondrej sury
-sudo apt install software-properties-common ca-certificates lsb-release apt-transport-https 
+sudo apt install software-properties-common ca-certificates lsb-release apt-transport-https -y
 sudo echo -e "\n" | apt-add-repository ppa:ondrej/php
 sudo sleep 3
 sudo apt-get update
@@ -51,5 +53,6 @@ else
 	read -p "enter the version of php , Try version 8.1, enter-  8.1 : " php_version
 fi
 sudo apt install -y php$php_version 
+echo ""
 echo "Install version is \n $(php -v) \n"
 
