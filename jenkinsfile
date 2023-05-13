@@ -1,24 +1,27 @@
-def node_version =  input(id: 'userInput', message: 'Enter the Node version with prefix v, example: v19.0.0 ', parameters: [[$class: 'TextParameterDefinition', defaultValue: 'v19.0.0', description: 'node version', name: 'url1'],])
-def php_version =  input(id: 'userInput1', message: 'enter the php version, example: 8.1 ', parameters: [[$class: 'TextParameterDefinition', defaultValue: '8.1', description: 'php version', name: 'url2'],])
+// Taking input of node version and php version in jenkins as we take in task 1 shell script
+/* when build start , we expet an input prompt from jenkins UI but if it takes a time then we can go to the console output
+     and select the input requested link to pass our user input 
+*/
+def node_version =  input(id: 'userInput', message: 'Enter the Node version with prefix v, example: v19.0.0 ', 
+    parameters: [[$class: 'TextParameterDefinition', defaultValue: 'v19.0.0', description: 'node version', name: 'url1'],])
+
+def php_version =  input(id: 'userInput1', message: 'enter the php version, example: 8.1 ', 
+    parameters: [[$class: 'TextParameterDefinition', defaultValue: '8.1', description: 'php version', name: 'url2'],])
+
+// Lets build and deploy in remote server label clusteragent1 
+// put your remote server label in place of clusteragent1
 pipeline {
     agent { label 'clusteragent1'}
-
+     
     stages {
+        // getting our task 1 script
         stage('Getting The Shell Script which is in the task one to install Node.js and PHP with user input version'){
             steps {
                 sh 'sudo wget https://github.com/nivaran/webe_task/raw/master/install_node_php.sh'
             }
         }
-        
-    //    stage('Build Shell Script') {
-     //      steps {
-       //         script {
-         //       def node_version =  input(id: 'userInput', message: 'Enter the Node version with prefix v, example: v19.0.0 ', parameters: [[$class: 'TextParameterDefinition', defaultValue: 'v19.0.0', description: 'node version', name: 'url1'],])
-           //     def php_version =  input(id: 'userInput1', message: 'enter the php version, example: 8.1 ', parameters: [[$class: 'TextParameterDefinition', defaultValue: '8.1', description: 'php version', name: 'url2'],])
-             //   }
-        //    }
-        //}
-    
+
+        // Installing task 1 shell script in remote server to get node and php    
         stage('Installing Node.js & PHP using TASK-1 file'){
             steps{
                 script{
@@ -30,6 +33,7 @@ pipeline {
     }
     post {
         always {
+            // cleaning our workspace to release memory
             cleanWs()
             
         }
