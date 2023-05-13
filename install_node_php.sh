@@ -49,6 +49,7 @@ if [ "$#" -eq 2 ];then
 	php_version=$2
 else
 	read -p "enter the version of php , Try version 8.1, enter-  8.1 : " php_version
+fi
 sudo apt install -y php$php_version 
 echo "Install version is \n $(php -v) \n"
 
